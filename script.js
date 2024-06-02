@@ -1,9 +1,9 @@
 let model, webcam, labelContainer, maxPredictions;
-let capturedImage, sumDetected;
+let capturedImage, sumDetected, authenticityStatus;
 
 // Load the image model and setup the webcam
 async function init() {
-    const URL = "https://teachablemachine.withgoogle.com/models/PjMy2R9Gc/";
+    const URL = "https://teachablemachine.withgoogle.com/models/oEcBcXoLB/";
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
 
@@ -37,24 +37,53 @@ async function predict() {
     const prediction = await model.predict(webcam.canvas);
 
     let sum = 0;
+    let authenticity = "Tidak Diketahui"; // Default value for authenticity
+    let detectAuthenticity = false; // Flag to indicate if authenticity should be checked
+
     for (let i = 0; i < maxPredictions; i++) {
         if (prediction[i].className === "1Ribu" && prediction[i].probability > 0.8) {
             sum += 1000;
+            detectAuthenticity = true;
         } else if (prediction[i].className === "2Ribu" && prediction[i].probability > 0.7) {
             sum += 2000;
+            detectAuthenticity = true;
         } else if (prediction[i].className === "5Ribu" && prediction[i].probability > 0.7) {
             sum += 5000;
+            detectAuthenticity = true;
         } else if (prediction[i].className === "10Ribu" && prediction[i].probability > 0.7) {
             sum += 10000;
+            detectAuthenticity = true;
         } else if (prediction[i].className === "20Ribu" && prediction[i].probability > 0.7) {
             sum += 20000;
+            detectAuthenticity = true;
         } else if (prediction[i].className === "50Ribu" && prediction[i].probability > 0.7) {
             sum += 50000;
+            detectAuthenticity = true;
         } else if (prediction[i].className === "100Ribu" && prediction[i].probability > 0.7) {
             sum += 100000;
+            detectAuthenticity = true;
+        } else if (prediction[i].className === "100Perak" && prediction[i].probability > 0.7) {
+            sum += 100;
+        } else if (prediction[i].className === "200Perak" && prediction[i].probability > 0.7) {
+            sum += 200;
+        } else if (prediction[i].className === "500Perak" && prediction[i].probability > 0.7) {
+            sum += 500;
+        } else if (prediction[i].className === "1000Perak" && prediction[i].probability > 0.7) {
+            sum += 1000;
         }
     }
+
     document.getElementById("sum").innerText = sum;
+
+    if (detectAuthenticity) {
+        authenticity = "Asli";
+        document.getElementById("authenticity-display").style.display = "block";
+        document.getElementById("authenticity").innerText = authenticity;
+        authenticityStatus = authenticity;
+    } else {
+        document.getElementById("authenticity-display").style.display = "none";
+        authenticityStatus = "";
+    }
 }
 
 function capture() {
@@ -95,7 +124,7 @@ function saveData() {
             }
         }
     };
-    const data = "nominal=" + sumDetected + "&timestamp=" + new Date().toISOString();
+    const data = "nominal=" + sumDetected + "&timestamp=" + new Date().toISOString() + "&authenticity=" + authenticityStatus;
     xhr.send(data);
 }
 
@@ -104,6 +133,7 @@ function startAgain() {
     document.getElementById("save").style.display = "none";
     document.getElementById("captured-image-container").style.display = "none";
     document.getElementById("webcam-placeholder").style.display = "block";
+    document.getElementById("authenticity-display").style.display = "none";
 
     init();
 }

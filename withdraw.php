@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container-fluid p-0">
         <header class="text-center mb-3 py-3 bg-primary text-white">
-            <h1 class="display-1"><b>Money Eyes</b></h1>
+            <h1 class="display-1"><b>VisionBank</b></h1>
         </header>
 
         <?php include 'navbar.php'; ?>

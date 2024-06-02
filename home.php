@@ -55,7 +55,7 @@ while ($row = $result_transactions->fetch_assoc()) {
 <body>
     <div class="container-fluid p-0">
         <header class="text-center mb-3 py-3 bg-primary text-white">
-            <h1 class="display-1"><b>Money Eyes</b></h1>
+            <h1 class="display-1"><b>VisionBank</b></h1>
             <p id="description">Smart Technology, Quick Solutions.</p>
         </header>
 
@@ -81,6 +81,9 @@ while ($row = $result_transactions->fetch_assoc()) {
                     </div>
                     <div id="sum-display" class="text-center mb-4">
                         <h2>Sum: Rp <b id="sum"></b></h2>
+                    </div>
+                    <div id="authenticity-display" class="text-center mb-4" style="display:none;">
+                        <h2>Keaslian: <b id="authenticity"></b></h2>
                     </div>
                     <div class="manual-input-form mt-4">
                         <h3>Manual Deposit</h3>
